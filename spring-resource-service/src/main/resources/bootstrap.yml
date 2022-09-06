@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: resource-service
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

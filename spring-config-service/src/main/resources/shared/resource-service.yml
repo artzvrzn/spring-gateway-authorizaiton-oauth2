@@ -1,0 +1,12 @@
+server:
+  servlet:
+    context-path: /resource
+  port: 8002
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-service:9000
+app:
+  some-value: hello world!

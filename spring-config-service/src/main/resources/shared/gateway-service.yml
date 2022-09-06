@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: resource-service-id
+          uri: lb://resource-service
+          predicates:
+           - Path=/resource/**
+          filters:
+            - TokenRelay=
+        - id: auth-service-id
+          uri: lb://authorization-service
+          predicates:
+            - Path=/auth/**
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway-client:
+            provider: auth-service
+            client-id: gateway-client-id
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://spring-gateway:8080/login/oauth2/code/{registrationId}"
+            scope: openid, resource.read, resource.write
+            client-name: gateway-client
+        provider:
+          auth-service:
+            issuer-uri: http://auth-service:9000
